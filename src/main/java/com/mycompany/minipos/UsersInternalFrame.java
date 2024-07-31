@@ -4,6 +4,10 @@
  */
 package com.mycompany.minipos;
 
+import java.awt.event.MouseEvent;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author OBUZIETTER3000
@@ -15,6 +19,8 @@ public class UsersInternalFrame extends javax.swing.JInternalFrame {
      */
     public UsersInternalFrame() {
         initComponents();
+        
+        getAllUsers();
     }
 
     /**
@@ -27,67 +33,69 @@ public class UsersInternalFrame extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         userPopupMenu = new javax.swing.JPopupMenu();
-        editMenuItem = new javax.swing.JMenuItem();
+        editUserMenuItem = new javax.swing.JMenuItem();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        users_table = new javax.swing.JTable();
         jTextField1 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
+        id_tf = new javax.swing.JTextField();
+        first_name_tf = new javax.swing.JTextField();
+        last_name_tf = new javax.swing.JTextField();
+        username_tf = new javax.swing.JTextField();
+        password_tf = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        till_combo = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        update_btn = new javax.swing.JButton();
+        new_user_btn = new javax.swing.JButton();
+        active_combo = new javax.swing.JComboBox<>();
 
-        editMenuItem.setText("jMenuItem1");
-        userPopupMenu.add(editMenuItem);
+        editUserMenuItem.setText("Edit User");
+        editUserMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editUserMenuItemActionPerformed(evt);
+            }
+        });
+        userPopupMenu.add(editUserMenuItem);
 
         setClosable(true);
         setIconifiable(true);
         setTitle("User Management");
 
-        jTable2.setBackground(new java.awt.Color(0, 0, 0));
-        jTable2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        jTable2.setForeground(new java.awt.Color(0, 255, 255));
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        users_table.setBackground(new java.awt.Color(0, 0, 0));
+        users_table.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        users_table.setForeground(new java.awt.Color(255, 255, 0));
+        users_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "First Name", "Last Name", "Username", "Active", "Till Open"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Object.class
-            };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true
+                false, false, false, false, false
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTable2.setComponentPopupMenu(userPopupMenu);
-        jScrollPane2.setViewportView(jTable2);
+        users_table.setComponentPopupMenu(userPopupMenu);
+        users_table.setRowHeight(30);
+        users_table.setSelectionBackground(new java.awt.Color(255, 255, 0));
+        users_table.setSelectionForeground(new java.awt.Color(255, 51, 0));
+        users_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                users_tableMousePressed(evt);
+            }
+        });
+        jScrollPane2.setViewportView(users_table);
 
         jTextField1.setBackground(new java.awt.Color(0, 0, 0));
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
@@ -96,19 +104,16 @@ public class UsersInternalFrame extends javax.swing.JInternalFrame {
         jTextField1.setCaretColor(new java.awt.Color(255, 255, 0));
         jTextField1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        jTextField2.setEnabled(false);
+        id_tf.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        id_tf.setEnabled(false);
 
-        jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        first_name_tf.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
 
-        jTextField4.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        last_name_tf.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
 
-        jTextField5.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        username_tf.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
 
-        jTextField6.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        jTextField6.setEnabled(false);
-
-        jTextField8.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        password_tf.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         jLabel1.setText("ID");
@@ -128,23 +133,32 @@ public class UsersInternalFrame extends javax.swing.JInternalFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         jLabel6.setText("ACTIVE");
 
-        jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OPEN", "CLOSED" }));
+        till_combo.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        till_combo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CLOSED", "OPEN" }));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         jLabel7.setText("TILL");
 
-        jButton1.setBackground(new java.awt.Color(0, 255, 255));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        jButton1.setText("UPDATE");
+        update_btn.setBackground(new java.awt.Color(0, 255, 255));
+        update_btn.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        update_btn.setText("UPDATE");
+        update_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                update_btnActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(102, 102, 255));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        jButton2.setText("NEW USER");
+        new_user_btn.setBackground(new java.awt.Color(102, 102, 255));
+        new_user_btn.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        new_user_btn.setText("CREATE USER");
+        new_user_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                new_user_btnActionPerformed(evt);
+            }
+        });
 
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 204, 0));
-        jButton3.setText("RESET");
+        active_combo.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        active_combo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NO", "YES" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -159,10 +173,10 @@ public class UsersInternalFrame extends javax.swing.JInternalFrame {
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
-                    .addComponent(jTextField8)
-                    .addComponent(jTextField3)
-                    .addComponent(jTextField2))
+                    .addComponent(username_tf, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                    .addComponent(first_name_tf)
+                    .addComponent(id_tf)
+                    .addComponent(active_combo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
@@ -171,50 +185,45 @@ public class UsersInternalFrame extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(last_name_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(update_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(password_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(till_combo, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(new_user_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(id_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(first_name_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(last_name_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                    .addComponent(update_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(username_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(password_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
-                    .addComponent(jButton2))
+                    .addComponent(new_user_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(till_combo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
-                    .addComponent(jButton3))
-                .addGap(26, 26, 26))
+                    .addComponent(active_combo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -235,7 +244,7 @@ public class UsersInternalFrame extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -244,13 +253,104 @@ public class UsersInternalFrame extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void new_user_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_new_user_btnActionPerformed
+        NewUserFrame newUserFrame = new NewUserFrame();
+        newUserFrame.setVisible(true);
+    }//GEN-LAST:event_new_user_btnActionPerformed
 
+    private void users_tableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_users_tableMousePressed
+        if (evt.getButton() == MouseEvent.BUTTON3) { // Right mouse button
+            int row = users_table.rowAtPoint(evt.getPoint());
+            if (row >= 0) {
+                users_table.setRowSelectionInterval(row, row); // Select the row
+            }
+        }
+    }//GEN-LAST:event_users_tableMousePressed
+
+    private void editUserMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editUserMenuItemActionPerformed
+        
+        User user = new User();
+        
+        User foundUser = user.readUser(users_table.getValueAt(users_table.getSelectedRow(), 2).toString());
+        id_tf.setText(foundUser.getUserId());        
+        
+        first_name_tf.setText(users_table.getValueAt(users_table.getSelectedRow(), 0).toString());
+        last_name_tf.setText(users_table.getValueAt(users_table.getSelectedRow(), 1).toString());
+        username_tf.setText(users_table.getValueAt(users_table.getSelectedRow(), 2).toString());
+        
+        String isUserActive = users_table.getValueAt(users_table.getSelectedRow(), 3).toString();
+        switch (isUserActive) {
+            case "true" ->
+                active_combo.setSelectedIndex(1);
+            case "false" ->
+                active_combo.setSelectedIndex(0);
+        }
+        String isTillOpen = users_table.getValueAt(users_table.getSelectedRow(), 4).toString();
+        switch (isTillOpen) {
+            case "true" ->
+                till_combo.setSelectedIndex(1);
+            case "false" ->
+                till_combo.setSelectedIndex(0);
+        }
+        
+
+    }//GEN-LAST:event_editUserMenuItemActionPerformed
+
+    private void update_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_btnActionPerformed
+        User user = new User();
+        user.setUserId(id_tf.getText());
+        user.setFirstName(first_name_tf.getText());
+        user.setLastName(last_name_tf.getText());
+        user.setUsername(username_tf.getText());
+        user.setPassword(password_tf.getText());
+        
+        int isUserActive = active_combo.getSelectedIndex();
+        switch (isUserActive) {
+            case 0 ->
+                user.setActive(false);
+            case 1 ->
+                user.setActive(true);
+        }
+        int isTillOpen = till_combo.getSelectedIndex();
+        switch (isTillOpen) {
+            case 0 ->
+                user.setTillOpen(false);
+            case 1 ->
+                user.setTillOpen(true);
+        }
+        user.updateUser();
+        
+        getAllUsers();
+        
+        id_tf.setText(null);
+        first_name_tf.setText(null);
+        last_name_tf.setText(null);
+        username_tf.setText(null);
+        password_tf.setText(null);
+    }//GEN-LAST:event_update_btnActionPerformed
+    
+    private void getAllUsers() {
+        
+        DefaultTableModel model = (DefaultTableModel) users_table.getModel();
+        User userHandler = new User();
+        List<User> allUsers = userHandler.getAllUsers();
+        for (User user : allUsers) {
+            
+            Object[] userData = {user.getFirstName(), user.getLastName(), user.getUsername(), user.isActive(), user.isTillOpen()};
+            System.out.println("Username: " + user.getUsername());
+            System.out.println("First Name: " + user.getFirstName());
+            System.out.println("Last Name: " + user.getLastName());
+            System.out.println("Active: " + user.isActive());
+            System.out.println("Till Open: " + user.isTillOpen());
+            System.out.println();
+            model.addRow(userData);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem editMenuItem;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> active_combo;
+    private javax.swing.JMenuItem editUserMenuItem;
+    private javax.swing.JTextField first_name_tf;
+    private javax.swing.JTextField id_tf;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -260,14 +360,14 @@ public class UsersInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField last_name_tf;
+    private javax.swing.JButton new_user_btn;
+    private javax.swing.JTextField password_tf;
+    private javax.swing.JComboBox<String> till_combo;
+    private javax.swing.JButton update_btn;
     private javax.swing.JPopupMenu userPopupMenu;
+    private javax.swing.JTextField username_tf;
+    private javax.swing.JTable users_table;
     // End of variables declaration//GEN-END:variables
 }
